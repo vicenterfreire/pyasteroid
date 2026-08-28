@@ -91,7 +91,7 @@ class Ship:
 
     def get_direction(self):
         """Get normalized direction vector."""
-        rad = math.radians(self.angle)
+        rad = math.radians(self.angle+(-90))
         return np.array([math.cos(rad), math.sin(rad)])
 
     def get_position(self):
@@ -103,7 +103,7 @@ class Ship:
         rad = math.radians(self.angle)
         direction = np.array([math.cos(rad), math.sin(rad)])
         # Move from center to nose tip (size units forward)
-        nose_pos = self.position + direction * self.size * 1.1
+        nose_pos = self.position + direction #* self.size * 1.1
         return nose_pos
 
     def get_rotated_points(self):
