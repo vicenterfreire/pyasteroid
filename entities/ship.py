@@ -98,6 +98,14 @@ class Ship:
         """Get position as tuple."""
         return (int(self.position[0]), int(self.position[1]))
 
+    def get_nose_position(self):
+        """Get position of the ship's nose (tip)."""
+        rad = math.radians(self.angle)
+        direction = np.array([math.cos(rad), math.sin(rad)])
+        # Move from center to nose tip (size units forward)
+        nose_pos = self.position + direction * self.size * 1.1
+        return nose_pos
+
     def get_rotated_points(self):
         """Get rotated ship points for rendering."""
         rad = math.radians(self.angle)

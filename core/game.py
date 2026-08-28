@@ -148,11 +148,13 @@ class Game:
             return
 
         direction = self.ship.get_direction()
-        bullet_velocity = direction * Settings.BULLET_SPEED + self.ship.velocity
+        # Get nose position for bullet spawn
+        nose_pos = self.ship.get_nose_position()
+        bullet_velocity = direction * Settings.BULLET_SPEED + self.ship.velocity * 0.3
 
         bullet = Bullet(
-            self.ship.position[0],
-            self.ship.position[1],
+            nose_pos[0],
+            nose_pos[1],
             bullet_velocity,
             "player"
         )

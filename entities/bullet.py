@@ -16,6 +16,7 @@ class Bullet:
         self.alive = True
         self.size = Settings.BULLET_SIZE
         self.glow_size = Settings.BULLET_GLOW_SIZE
+        self._initial_lifetime = Settings.BULLET_LIFETIME  # Store initial value
 
         # Color based on owner
         if owner == "player":
@@ -54,3 +55,9 @@ class Bullet:
     def get_radius(self):
         """Get collision radius."""
         return self.size * 0.7
+
+    def get_lifetime_ratio(self):
+        """Get remaining lifetime ratio (0-1)."""
+        if self._initial_lifetime <= 0:
+            return 1.0
+        return max(0, self.lifetime / self._initial_lifetime)

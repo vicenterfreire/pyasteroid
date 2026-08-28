@@ -81,17 +81,31 @@ class Renderer:
         x += offset_x
         y += offset_y
 
+        # Fade based on lifetime
+        lifetime_ratio = bullet.get_lifetime_ratio()
+        alpha = int(255 * lifetime_ratio)
+
         # Glow
-        glow_radius = bullet.glow_size
+        glow_radius = bullet.glow_size * (0.5 + 0.5 * lifetime_ratio)
         for i in range(3):
-            alpha = 40 - i * 10
-            radius = glow_radius - i * 2
-            pygame.draw.circle(glow_surface, bullet.glow_color[:3] + (alpha,),
-                             (x, y), radius)
+            glow_alpha = int((40 - i * 10) * lifetime_ratio)
+            radius = int(glow_radius - i * 2)
+            if radius > 0 and glow_alpha > 0:
+                pygame.draw.circle(glow_surface, bullet.glow_color[:3] + (glow_alpha,),
+                                (x, y), radius)
 
         # Main bullet
-        pygame.draw.circle(screen, bullet.color, (x, y), bullet.size)
-        pygame.draw.circle(screen, Settings.NEON_WHITE, (x, y), bullet.size // 2)
+        if alpha > 0:
+            color = bullet.color[:3] + (alpha,)
+            surf = pygame.Surface((bullet.size * 2 + 4, bullet.size * 2 + 4), pygame.SRCALPHA)
+            pygame.draw.circle(surf, color, (bullet.size + 2, bullet.size + 2), bullet.size)
+            screen.blit(surf, (x - bullet.size - 2, y - bullet.size - 2))
+
+            # White core
+            if lifetime_ratio > 0.3:
+                core_alpha = int(255 * min(1, lifetime_ratio * 2))
+                pygame.draw.circle(screen, Settings.NEON_WHITE[:3] + (core_alpha,),
+                                (x, y), bullet.size // 2)
 
     def _render_ufo(self, screen, glow_surface, ufo, offset_x, offset_y):
         """Render UFO with glow."""
