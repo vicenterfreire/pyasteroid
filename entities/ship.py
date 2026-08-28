@@ -58,7 +58,7 @@ class Ship:
 
         # Acceleration
         if self.is_accelerating:
-            rad = math.radians(self.angle)
+            rad = math.radians(self.angle+(-90))
             direction = np.array([math.cos(rad), math.sin(rad)])
             self.velocity += direction * Settings.SHIP_ACCELERATION * dt
 
@@ -122,22 +122,25 @@ class Ship:
     def get_thruster_positions(self):
         """Get positions for thruster particles."""
         rad = math.radians(self.angle + 180)
-        base = self.position.copy()
+        # base = self.position.copy()
 
-        # Two thruster points at the back
-        offset = self.size * 0.5
-        side_offset = self.size * 0.4
+        # # Two thruster points at the back
+        # offset = self.size * 0.5
+        # side_offset = self.size * 0.4
 
-        left = base + np.array([
-            math.cos(rad + math.radians(10)) * offset + math.cos(rad) * side_offset,
-            math.sin(rad + math.radians(10)) * offset + math.sin(rad) * side_offset
-        ])
-        right = base + np.array([
-            math.cos(rad - math.radians(10)) * offset - math.cos(rad) * side_offset,
-            math.sin(rad - math.radians(10)) * offset - math.sin(rad) * side_offset
-        ])
+        # left = base + np.array([
+        #     math.cos(rad + math.radians(10)) * offset + math.cos(rad) * side_offset,
+        #     math.sin(rad + math.radians(10)) * offset + math.sin(rad) * side_offset
+        # ])
+        # right = base + np.array([
+        #     math.cos(rad - math.radians(10)) * offset - math.cos(rad) * side_offset,
+        #     math.sin(rad - math.radians(10)) * offset - math.sin(rad) * side_offset
+        # ])
+        
+        offset = 0
+        thruster = self.position + np.array([math.cos(rad) * offset, math.sin(rad) * offset])
 
-        return [left, right]
+        return [thruster]
 
     def get_radius(self):
         """Get collision radius."""
