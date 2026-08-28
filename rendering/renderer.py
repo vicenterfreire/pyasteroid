@@ -56,24 +56,24 @@ class Renderer:
 
         # Glow layer
         glow_points = [(x + offset_x, y + offset_y) for x, y in ship.get_rotated_points()]
-        pygame.draw.polygon(glow_surface, (0, 255, 255, 60), glow_points, 0)
-        pygame.draw.polygon(glow_surface, (0, 255, 255, 120), glow_points, 3)
+        # pygame.draw.polygon(glow_surface, (0, 255, 255, 60), glow_points, 0)
+        pygame.draw.polygon(glow_surface, (0, 255, 255, 120), glow_points, 1)
 
         # Main ship
-        pygame.draw.polygon(screen, Settings.NEON_CYAN, points, 0)
-        pygame.draw.polygon(screen, Settings.NEON_WHITE, points, 2)
+        # pygame.draw.polygon(screen, Settings.NEON_CYAN, points, 0)
+        pygame.draw.polygon(screen, Settings.NEON_CYAN, points, 1)
 
     def _render_asteroid(self, screen, glow_surface, asteroid, offset_x, offset_y):
         """Render asteroid with glow."""
         vertices = [(x + offset_x, y + offset_y) for x, y in asteroid.get_rotated_vertices()]
 
         # Glow
-        pygame.draw.polygon(glow_surface, asteroid.glow_color + (40,), vertices, 0)
-        pygame.draw.polygon(glow_surface, asteroid.glow_color + (80,), vertices, 2)
+        # pygame.draw.polygon(glow_surface, asteroid.glow_color + (40,), vertices, 0)
+        pygame.draw.polygon(glow_surface, asteroid.glow_color + (80,), vertices, 1)
 
         # Main asteroid
-        pygame.draw.polygon(screen, asteroid.color, vertices, 0)
-        pygame.draw.polygon(screen, Settings.NEON_WHITE, vertices, 1)
+        # pygame.draw.polygon(screen, asteroid.color, vertices, 0)
+        pygame.draw.polygon(screen, asteroid.color, vertices, 1)
 
     def _render_bullet(self, screen, glow_surface, bullet, offset_x, offset_y):
         """Render bullet with glow."""
@@ -148,26 +148,26 @@ class Renderer:
 
     def render_hud(self, screen, score, high_score, wave, invincible, alive):
         """Render HUD elements."""
-        font = pygame.font.Font(None, 36)
-        small_font = pygame.font.Font(None, 24)
+        font = pygame.font.Font(None, 28)
+        small_font = pygame.font.Font(None, 18)
 
         # Score
         score_text = font.render(f"SCORE {score:06d}", True, Settings.NEON_CYAN)
-        screen.blit(score_text, (20, 20))
+        screen.blit(score_text, (15, 15))
 
         # High score
         high_text = font.render(f"BEST {high_score:06d}", True, Settings.NEON_MAGENTA)
-        screen.blit(high_text, (20, 60))
+        screen.blit(high_text, (15, 45))
 
         # Wave
         wave_text = font.render(f"WAVE {wave}", True, Settings.NEON_GREEN)
-        screen.blit(wave_text, (Settings.SCREEN_WIDTH - 150, 20))
+        screen.blit(wave_text, (Settings.SCREEN_WIDTH - 120, 15))
 
         # Controls hint
         controls = small_font.render("W/A/D/Space/R/ESC", True, Settings.NEON_WHITE)
         controls_rect = controls.get_rect()
         controls_rect.centerx = Settings.SCREEN_WIDTH // 2
-        controls_rect.bottom = Settings.SCREEN_HEIGHT - 20
+        controls_rect.bottom = Settings.SCREEN_HEIGHT - 15
         screen.blit(controls, controls_rect)
 
         # Ship status
@@ -175,11 +175,11 @@ class Renderer:
             status = small_font.render("RESPAWNING...", True, Settings.NEON_RED)
             status_rect = status.get_rect()
             status_rect.centerx = Settings.SCREEN_WIDTH // 2
-            status_rect.centery = Settings.SCREEN_HEIGHT // 2 - 50
+            status_rect.centery = Settings.SCREEN_HEIGHT // 2 - 40
             screen.blit(status, status_rect)
         elif invincible:
             status = small_font.render("INVINCIBLE", True, Settings.NEON_GREEN)
             status_rect = status.get_rect()
             status_rect.centerx = Settings.SCREEN_WIDTH // 2
-            status_rect.centery = Settings.SCREEN_HEIGHT // 2 - 50
+            status_rect.centery = Settings.SCREEN_HEIGHT // 2 - 40
             screen.blit(status, status_rect)
