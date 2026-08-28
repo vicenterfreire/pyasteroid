@@ -54,7 +54,7 @@ class SoundSystem:
         wave = wave * envelope
 
         wave = (wave * 32767).astype(np.int16)
-        return pygame.sndarray.make_sound(wave)
+        return self._make_sound(wave)
 
     def _generate_explosion_sound(self):
         """Generate explosion sound with noise."""
@@ -72,7 +72,7 @@ class SoundSystem:
         # Normalize
         wave = wave / np.max(np.abs(wave))
         wave = (wave * 32767).astype(np.int16)
-        return pygame.sndarray.make_sound(wave)
+        return self._make_sound(wave)
 
     def _generate_thruster_sound(self):
         """Generate thruster sound."""
@@ -88,7 +88,7 @@ class SoundSystem:
         wave *= np.exp(-t * 2)
 
         wave = (wave * 16384).astype(np.int16)
-        return pygame.sndarray.make_sound(wave)
+        return self._make_sound(wave)
 
     def _generate_ufo_shoot_sound(self):
         """Generate UFO shoot sound."""
@@ -104,7 +104,7 @@ class SoundSystem:
         wave = wave * envelope
 
         wave = (wave * 32767).astype(np.int16)
-        return pygame.sndarray.make_sound(wave)
+        return self._make_sound(wave)
 
     def _generate_ufo_hum_sound(self):
         """Generate UFO humming sound."""
@@ -120,6 +120,16 @@ class SoundSystem:
         wave += np.sin(2 * np.pi * 180 * t + t * 50) * 0.2
 
         wave = (wave * 16384).astype(np.int16)
+        return self._make_sound(wave)
+    
+    def _make_sound(self, wave):
+        wave = wave.astype(np.int16)
+        
+        frequency, size, channels = pygame.mixer.get_init()
+        
+        if channels == 2 and wave.ndim == 1:
+            wave = np.column_stack((wave, wave))
+            
         return pygame.sndarray.make_sound(wave)
 
     def play_shoot(self):
