@@ -56,24 +56,24 @@ class Renderer:
 
         # Glow layer
         glow_points = [(x + offset_x, y + offset_y) for x, y in ship.get_rotated_points()]
-        pygame.draw.polygon(glow_surface, (0, 255, 255, 60), glow_points, 0)
-        pygame.draw.polygon(glow_surface, (0, 255, 255, 120), glow_points, 3)
+        # pygame.draw.polygon(glow_surface, (0, 255, 255, 60), glow_points, 0)
+        pygame.draw.polygon(glow_surface, (0, 255, 255, 120), glow_points, 1)
 
         # Main ship
-        pygame.draw.polygon(screen, Settings.NEON_CYAN, points, 0)
-        pygame.draw.polygon(screen, Settings.NEON_WHITE, points, 2)
+        # pygame.draw.polygon(screen, Settings.NEON_CYAN, points, 0)
+        pygame.draw.polygon(screen, Settings.NEON_CYAN, points, 1)
 
     def _render_asteroid(self, screen, glow_surface, asteroid, offset_x, offset_y):
         """Render asteroid with glow."""
         vertices = [(x + offset_x, y + offset_y) for x, y in asteroid.get_rotated_vertices()]
 
         # Glow
-        pygame.draw.polygon(glow_surface, asteroid.glow_color + (40,), vertices, 0)
-        pygame.draw.polygon(glow_surface, asteroid.glow_color + (80,), vertices, 2)
+        # pygame.draw.polygon(glow_surface, asteroid.glow_color + (40,), vertices, 0)
+        pygame.draw.polygon(glow_surface, asteroid.glow_color + (80,), vertices, 1)
 
         # Main asteroid
-        pygame.draw.polygon(screen, asteroid.color, vertices, 0)
-        pygame.draw.polygon(screen, Settings.NEON_WHITE, vertices, 1)
+        # pygame.draw.polygon(screen, asteroid.color, vertices, 0)
+        pygame.draw.polygon(screen, asteroid.color, vertices, 1)
 
     def _render_bullet(self, screen, glow_surface, bullet, offset_x, offset_y):
         """Render bullet with glow."""
