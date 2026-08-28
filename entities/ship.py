@@ -121,26 +121,18 @@ class Ship:
 
     def get_thruster_positions(self):
         """Get positions for thruster particles."""
-        rad = math.radians(self.angle + 180)
-        # base = self.position.copy()
-
-        # # Two thruster points at the back
-        # offset = self.size * 0.5
-        # side_offset = self.size * 0.4
-
-        # left = base + np.array([
-        #     math.cos(rad + math.radians(10)) * offset + math.cos(rad) * side_offset,
-        #     math.sin(rad + math.radians(10)) * offset + math.sin(rad) * side_offset
-        # ])
-        # right = base + np.array([
-        #     math.cos(rad - math.radians(10)) * offset - math.cos(rad) * side_offset,
-        #     math.sin(rad - math.radians(10)) * offset - math.sin(rad) * side_offset
-        # ])
-        
-        offset = 0
-        thruster = self.position + np.array([math.cos(rad) * offset, math.sin(rad) * offset])
-
-        return [thruster]
+        rad = math.radians(self.angle)
+        cos_a = math.cos(rad)
+        sin_a = math.sin(rad)
+        local_x = 0
+        local_y = self.size * 0.6
+        world_x = self.position[0] + (
+            local_x * cos_a - local_y * sin_a
+        )
+        world_y = self.position[1] + (
+            local_x * sin_a + local_y * cos_a
+        )
+        return [np.array([world_x, world_y])]
 
     def get_radius(self):
         """Get collision radius."""
